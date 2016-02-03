@@ -83,6 +83,14 @@ class SelectInstances2(pyblish.api.Selector):
         self.log.warning("I'm good")
 
 
+class ValidatePublish(pyblish.api.Validator):
+    families = ["A", "B"]
+
+    def process_context(self, instance):
+        if instance.data["publish"]:
+            self.log.info(instance)
+
+
 class ValidateNamespace(pyblish.api.Validator):
     """Namespaces must be orange
 
@@ -513,13 +521,13 @@ class LongRunningValidator(pyblish.api.Validator):
 
 
 def toggle_instance(instance=None, new_value='', old_value=''):
-    print "Instance ({0}) changed from {1} to {2}".format(instance, new_value,
-                                                          old_value)
+    print "Instance ({0}) changed from {1} to {2}".format(instance, old_value,
+                                                          new_value)
 
 
 def toggle_plugin(plugin=None, new_value='', old_value=''):
-    print "Plugin ({0}) changed from {1} to {2}".format(plugin, new_value,
-                                                        old_value)
+    print "Plugin ({0}) changed from {1} to {2}".format(plugin, old_value,
+                                                        new_value)
 
 pyblish.api.register_callback("instanceToggled", toggle_instance)
 pyblish.api.register_callback("pluginToggled", toggle_plugin)
@@ -596,6 +604,7 @@ plugins = [
     SelectInstances2,
     SelectDiInstances,
     SelectInstancesFailure,
+    ValidatePublish,
     ValidateFailureMock,
     ValidateNamespace,
     ValidateIsIncompatible,
