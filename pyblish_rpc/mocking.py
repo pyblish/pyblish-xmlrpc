@@ -83,6 +83,13 @@ class SelectInstances2(pyblish.api.Selector):
         self.log.warning("I'm good")
 
 
+class ValidatorWithoutInstance(pyblish.api.Validator):
+    families = ["noInstanceFamily"]
+
+    def process_context(self, instance, context):
+        pass
+
+
 class ValidatePublish(pyblish.api.Validator):
     families = ["A", "B"]
 
@@ -604,6 +611,7 @@ plugins = [
     SelectInstances2,
     SelectDiInstances,
     SelectInstancesFailure,
+    ValidatorWithoutInstance,
     ValidatePublish,
     ValidateFailureMock,
     ValidateNamespace,
