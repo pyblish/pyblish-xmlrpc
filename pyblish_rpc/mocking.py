@@ -512,6 +512,19 @@ class LongRunningValidator(pyblish.api.Validator):
         self.log.info("Good morning")
 
 
+class CollectSorting(pyblish.api.Collector):
+    """ Sorts the context by family and name """
+
+    order = pyblish.api.Collector.order + 0.499
+
+    def process(self, context):
+
+        context[:] = sorted(context,
+                            key=lambda instance: (instance.data("family"),
+                                                  instance.data("name")))
+
+        self.log.info("Expected context: %s" % context)
+
 instances = [
     {
         "name": "Peter01",
@@ -584,6 +597,7 @@ plugins = [
     SelectInstances2,
     SelectDiInstances,
     SelectInstancesFailure,
+    CollectSorting,
     ValidateFailureMock,
     ValidateNamespace,
     ValidateIsIncompatible,
