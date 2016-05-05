@@ -9,17 +9,17 @@ communication is serialised back into its original JSON.
 
 import socket
 
-try:
-    import httplib
-except ImportError:
-    # Python 3
-    import http.client as httplib
+# try:
+#     import httplib
+# except ImportError:
+#     # Python 3
+#     import http.client as httplib
 
 try:
-    import xmlrpclib
+    from xmlrpclib import Transport, ServerProxy
 except ImportError:
     # Python 3
-    import xmlrpc.server as xmlrpclib
+    from xmlrpc.client import Transport, ServerProxy
 
 
 import pyblish.api
@@ -44,9 +44,9 @@ class Proxy(object):
         self.cached_context = list()
         self.cached_discover = list()
 
-        transport = TimeoutTransport()
+        transport = Transport()
 
-        self._proxy = xmlrpclib.ServerProxy(
+        self._proxy = ServerProxy(
             "http://{auth}127.0.0.1:{port}/pyblish".format(
                 port=port,
                 auth=("{user}:{pwd}@".format(
@@ -102,26 +102,26 @@ class Proxy(object):
         self._proxy.emit(signal, kwargs)
 
 
-class TimeoutTransport(xmlrpclib.Transport):
-    """Some requests may take a very long time, and that is ok"""
-    timeout = 60 * 60  # 1 hour
+# class TimeoutTransport(Transport):
+#     """Some requests may take a very long time, and that is ok"""
+#     timeout = 60 * 60  # 1 hour
 
-    def make_connection(self, host):
-        h = HttpWithTimeout(host, timeout=self.timeout)
-        return h
+#     def make_connection(self, host):
+#         h = HttpWithTimeout(host, timeout=self.timeout)
+#         return h
 
 
-class HttpWithTimeout(httplib.HTTP):
-    def __init__(self, host="", port=None, strict=None, timeout=5.0):
-        self._setup(self._connection_class(
-            host,
-            port if port != 0 else None,
-            strict,
-            timeout=timeout)
-        )
+# class HttpWithTimeout(httplib.HTTPConnection):
+#     def __init__(self, host="", port=None, strict=None, timeout=5.0):
+#         self._setup(self._connection_class(
+#             host,
+#             port if port != 0 else None,
+#             strict,
+#             timeout=timeout)
+#         )
 
-    def getresponse(self, *args, **kw):
-        return self._conn.getresponse(*args, **kw)
+#     def getresponse(self, *args, **kw):
+#         return self._conn.getresponse(*args, **kw)
 
 
 # Object Proxies
