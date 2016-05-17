@@ -1,7 +1,7 @@
 """PyPI setup script
 
 Script includes primary Python package along with essential
-non-Python files, such as QML and .png resources.
+non-Python files, such as json files.
 
 Usage:
     >>> python setup.py sdist
@@ -19,15 +19,6 @@ with open("README.md") as f:
 version_file = os.path.abspath("pyblish_rpc/version.py")
 version_mod = imp.load_source("version", version_file)
 version = version_mod.version
-
-# Collect non-python data as package data
-rpc_dir = os.path.abspath('pyblish_rpc/schema')
-rpc_package_data = list()
-for root, dirs, files in os.walk(rpc_dir):
-    for suffix in ("json"):
-        relpath = os.path.relpath(root, rpc_dir)
-        relpath = relpath.replace("\\", "/")
-        rpc_package_data.append("schema/" + relpath.strip(".") + "/*." + suffix)
 
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -56,7 +47,7 @@ setup(
     zip_safe=False,
     classifiers=classifiers,
     package_data={
-        "pyblish_rpc": rpc_package_data
+        "pyblish_rpc": ["schema/*.json"]
     },
     entry_points={},
 )
