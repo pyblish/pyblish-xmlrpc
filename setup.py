@@ -1,16 +1,62 @@
-from setuptools import setup, find_packages
+"""PyPI setup script
+
+Script includes primary Python package along with essential
+non-Python files, such as QML and .png resources.
+
+Usage:
+    >>> python setup.py sdist
+    ...
+
+"""
 
 import os
 import imp
+from setuptools import setup, find_packages
+
+with open("README.txt") as f:
+    readme = f.read()
 
 version_file = os.path.abspath("pyblish_rpc/version.py")
 version_mod = imp.load_source("version", version_file)
 version = version_mod.version
 
+# Collect non-python data as package data
+rpc_dir = os.path.abspath('pyblish_rpc/schema')
+rpc_package_data = list()
+for root, dirs, files in os.walk(rpc_dir):
+    for suffix in ("json"):
+        relpath = os.path.relpath(root, rpc_dir)
+        relpath = relpath.replace("\\", "/")
+        rpc_package_data.append("schema/" + relpath.strip(".") + "/*." + suffix)
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.6",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.5",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities"
+]
+
 setup(
-    name='pyblish-rpc',
+    name="pyblish-rpc",
     version=version,
-    packages=find_packages(),
+    description="An RPC interface to Pyblish",
+    long_description=readme,
+    author="Abstract Factory and Contributors",
+    author_email="marcus@abstractfactory.com",
+    url="https://github.com/pyblish/pyblish-rpc",
     license="LGPL",
-    long_description=open('README.md').read(),
+    packages=find_packages(),
+    zip_safe=False,
+    classifiers=classifiers,
+    package_data={
+        "pyblish_rpc": rpc_package_data
+    },
+    entry_points={},
 )
