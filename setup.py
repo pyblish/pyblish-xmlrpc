@@ -47,7 +47,7 @@ setup(
     zip_safe=False,
     classifiers=classifiers,
     package_data={
-        "pyblish_rpc": ["schema/*.json"]
+        "pyblish_rpc": ["schema/*.json", "vendor/jsonschema/schemas/*.json"]
     },
     entry_points={},
 )
