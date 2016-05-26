@@ -1,4 +1,5 @@
 build_script:
   - git clone https://github.com/pyblish/pyblish-base.git C:\projects\pyblish-base
   - set PYTHONPATH=C:\projects\pyblish-base
+  - pip install nose coverage
   - python run_coverage.py
