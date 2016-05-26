@@ -1,4 +1,4 @@
 build_script:
-  - git clone https://github.com/mottosso/pyblish.git C:\projects\pyblish
-  - set PYTHONPATH=C:\projects\pyblish
+  - git clone https://github.com/pyblish/pyblish-base.git C:\projects\pyblish-base
+  - set PYTHONPATH=C:\projects\pyblish-base
   - python run_coverage.py
