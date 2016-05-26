@@ -9,11 +9,6 @@ communication is serialised back into its original JSON.
 
 import socket
 
-# try:
-#     import httplib
-# except ImportError:
-#     # Python 3
-#     import http.client as httplib
 
 try:
     from xmlrpclib import Transport, ServerProxy
@@ -102,28 +97,6 @@ class Proxy(object):
         self._proxy.emit(signal, kwargs)
 
 
-# class TimeoutTransport(Transport):
-#     """Some requests may take a very long time, and that is ok"""
-#     timeout = 60 * 60  # 1 hour
-
-#     def make_connection(self, host):
-#         h = HttpWithTimeout(host, timeout=self.timeout)
-#         return h
-
-
-# class HttpWithTimeout(httplib.HTTPConnection):
-#     def __init__(self, host="", port=None, strict=None, timeout=5.0):
-#         self._setup(self._connection_class(
-#             host,
-#             port if port != 0 else None,
-#             strict,
-#             timeout=timeout)
-#         )
-
-#     def getresponse(self, *args, **kw):
-#         return self._conn.getresponse(*args, **kw)
-
-
 # Object Proxies
 
 
@@ -146,7 +119,7 @@ class ContextProxy(pyblish.api.Context):
         self._data = context["data"]
         self[:] = list(InstanceProxy.from_json(i)
                        for i in context["children"])
-        
+
         # Attach metadata
         self._data["pyblishClientVersion"] = pyblish.api.version
 
