@@ -1,5 +1,53 @@
-build_script:
+environment:
+  matrix:
+    - PYTHON: "C:\\Python26"
+      PYTHON_VERSION: "2.6.6"
+      PYTHON_ARCH: "32"
+    
+    - PYTHON: "C:\\Python26-x64"
+      PYTHON_VERSION: "2.6.6"
+      PYTHON_ARCH: "64"
+    
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.8"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7.8"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python33"
+      PYTHON_VERSION: "3.3.5"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python33-x64"
+      PYTHON_VERSION: "3.3.5"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4.1"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: "3.4.1"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "3.5.1"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5.1"
+      PYTHON_ARCH: "64"
+  
+init:
+  - ps: "ls -Name \"C:/\""
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+install:
+  - pip install nose coverage
   - git clone https://github.com/pyblish/pyblish-base.git C:\projects\pyblish-base
   - set PYTHONPATH=C:\projects\pyblish-base
-  - pip install nose coverage
+
+build_script:
   - python run_coverage.py
